@@ -1,0 +1,94 @@
+<%- include("includes/head") %>
+<%- include("includes/header") %>
+
+<div class="container py-md-5 container--narrow">
+  <%- include("includes/flash") %>
+
+  <div class="d-flex justify-content-between">
+    <h2 style="font-size: 2.5rem;">
+      <%= post.title %>
+    </h2>
+
+    <% if (post.isVisitorOwner) { %>
+    <span class="pt-2" style=" display: flex; ">
+      <a href="/post/<%= post._id %>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top"
+        title="Edit" style="text-decoration: none">
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
+          fill="#ffffff" version="1.1" x="0px" y="0px" viewBox="0 0 1024 1024"
+          style="enable-background:new 0 0 1024 1024;fill: currentColor;width: 23px;height: 23px;" xml:space="preserve">
+          <g>
+            <path
+              d="M881.4,192.5c-2.3-8.2-7.5-14.1-13.3-19.9c-27.7-27.7-55.5-55.5-83.2-83.2c-3.1-3.1-6.2-6.3-9.3-9.3   C761,66.2,739,65.8,724.1,79.4c-2.1,1.9-4,4-6,6l-40.4,40.4c-14.7,14.7-29.3,29.3-44,44c0.6,0.6,1.1,1.2,1.7,1.7   c3,3,5.9,5.9,8.9,8.9c3.5,3.5,7.1,7.1,10.6,10.6c28,28,56,56,83.9,83.9l22,22c3.5,3.5,7.1,7.1,10.6,10.6c3.5,3.5,7.1,7.1,10.6,10.6   c12.6-12.6,25.2-25.2,37.8-37.8c14.7-14.7,29.4-29.4,44.1-44.1c2.6-2.6,5.3-5.1,7.8-7.8C880.9,219,885,205.5,881.4,192.5z">
+            </path>
+            <path
+              d="M753.8,346.5c-2.4,2.4-4.8,4.8-7.1,7.1c-30.5,30.5-61,61-91.5,91.5c-33,33-66,66-99,99   c-31.9,31.9-63.8,63.8-95.8,95.8c-27.2,27.3-54.5,54.5-81.7,81.7c-19,19-38,38-57,57c-7.1,7.1-14.3,14.3-21.4,21.4   c-1.6,1.6-3.6,2.8-5.7,3.5c-0.1,0-0.1,0.1-0.2,0.1c-1.5,0.5-3.1,0.8-4.7,0.8H162.6c-8.1,0-15-6.9-15-15V665c0-5.1,1-9.7,4.7-13.7   c8.1-8.9,17.2-17.1,25.7-25.7c20-20,40.1-40.1,60.1-60.1c27.9-27.9,55.8-55.8,83.8-83.7c32.2-32.2,64.4-64.4,96.6-96.6   c32.9-32.9,65.8-65.8,98.7-98.7c29.5-29.5,58.9-58.9,88.4-88.3c3.5,3.5,7.1,7.1,10.6,10.6c3.5,3.5,7.1,7.1,10.6,10.6   c7.3,7.3,14.7,14.7,22,22c28,28,56,56,83.9,83.9c3.5,3.5,7.1,7.1,10.6,10.6c3,3,5.9,5.9,8.9,8.9   C752.7,345.3,753.3,345.9,753.8,346.5z">
+            </path>
+            <path
+              d="M162.6,954.5c6.2,0,12.5,0,18.7,0c17,0,33.9,0,50.9,0c25,0,49.9,0,74.9,0c30.6,0,61.2,0,91.8,0   c33.5,0,67.1,0,100.6,0c33.8,0,67.7,0,101.5,0c31.6,0,63.1,0,94.7,0c26.5,0,53.1,0,79.6,0c19.2,0,38.4,0,57.6,0   c9.1,0,18.2,0.1,27.3,0c0.4,0,0.8,0,1.2,0c15.7,0,30.7-13.8,30-30c-0.7-16.3-13.2-30-30-30c-6.2,0-12.5,0-18.7,0   c-17,0-33.9,0-50.9,0c-25,0-49.9,0-74.9,0c-30.6,0-61.2,0-91.8,0c-33.5,0-67.1,0-100.6,0c-33.8,0-67.7,0-101.5,0   c-31.6,0-63.1,0-94.7,0c-26.5,0-53.1,0-79.6,0c-19.2,0-38.4,0-57.6,0c-9.1,0-18.2-0.1-27.3,0c-0.4,0-0.8,0-1.2,0   c-15.7,0-30.7,13.8-30,30C133.3,940.7,145.8,954.5,162.6,954.5L162.6,954.5z">
+            </path>
+          </g>
+        </svg>
+      </a>
+      <form class="delete-post-form d-inline" action="/post/<%= post._id %>/delete" method="POST">
+        <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
+            version="1.1" x="0px" y="0px" viewBox="1 -1 100 100"
+            style="enable-background:new 1 -1 100 100;fill: red;width: 23px;height: 23px;" xml:space="preserve">
+            <g>
+              <path
+                d="M65.1,17.8V6.5H35.8v11.3H11.4v6.1h7.3l5.2,67.7h53.3l5.2-67.7h8.3v-6.1H65.1z M59.1,12.5v5.2H41.9v-5.2H59.1z" />
+            </g>
+          </svg>
+        </button>
+      </form>
+    </span>
+    <% } %>
+
+  </div>
+
+  <div class="c-post__meta text-muted small mb-4" style="
+      display: flex;
+      align-items: center;
+      margin-left: 1px;
+      font-size: 15px;
+    ">
+    <span><a href="/profile/<%= post.author.username %>"><img class="avatar-tiny"
+          src="<%= post.author.avatar %>"></a></span>
+    <span>Posted by <a href="/profile/<%= post.author.username %>"><%= post.author.username %></a></span> &nbsp;•&nbsp;
+    <span> Published on: <time><%= moment(post.createdDate).calendar(); %></time></span>
+  </div>
+
+  <div class="body-content">
+    <%- filterUserHTML(post.body) %>
+  </div>
+
+  <div class="c-share">
+    <span>Share on</span>
+    <ul class="c-share__list">
+      <li class="c-share__list-item">
+        <a href="https://twitter.com/intent/tweet/?text=<%= encodeURIComponent(post.title) %>&amp;url=<%= pageURL %>" aria-label="Twitter"
+          class="c-share__list-anchor">
+          <svg focusable="false" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor"
+              d="M23.954 4.569a10 10 0 0 1-2.825.775 4.958 4.958 0 0 0 2.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 0 0-8.384 4.482C7.691 8.094 4.066 6.13 1.64 3.161a4.822 4.822 0 0 0-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 0 1-2.228-.616v.061a4.923 4.923 0 0 0 3.946 4.827 4.996 4.996 0 0 1-2.212.085 4.937 4.937 0 0 0 4.604 3.417 9.868 9.868 0 0 1-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 0 0 7.557 2.209c9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63a9.936 9.936 0 0 0 2.46-2.548l-.047-.02z">
+            </path>
+          </svg>
+        </a>
+      </li>
+
+      <li class="c-share__list-item">
+        <a href="https://facebook.com/sharer/sharer.php?u=<%= pageURL %>" aria-label="Facebook" class="c-share__list-anchor">
+          <svg focusable="false" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <path fill="currentColor"
+              d="M23.9981 11.9991C23.9981 5.37216 18.626 0 11.9991 0C5.37216 0 0 5.37216 0 11.9991C0 17.9882 4.38789 22.9522 10.1242 23.8524V15.4676H7.07758V11.9991H10.1242V9.35553C10.1242 6.34826 11.9156 4.68714 14.6564 4.68714C15.9692 4.68714 17.3424 4.92149 17.3424 4.92149V7.87439H15.8294C14.3388 7.87439 13.8739 8.79933 13.8739 9.74824V11.9991H17.2018L16.6698 15.4676H13.8739V23.8524C19.6103 22.9522 23.9981 17.9882 23.9981 11.9991Z" />
+          </svg>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<%- include("includes/footer") %>
+<%- include("includes/scripts") %>
