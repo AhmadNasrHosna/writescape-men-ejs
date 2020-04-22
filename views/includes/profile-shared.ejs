@@ -1,0 +1,28 @@
+<h2 style="font-family: inherit;"><img class="avatar-small" src="<%= profileAvatar %>">
+  <%= profileUsername %>
+
+  <%if (user && !isVisitorProfile) {
+    if (isFollowing) { %>
+      <form class="ml-2 d-inline" action="/removeFollow/<%= profileUsername %>" method="POST">
+        <button class="btn btn-primary btn-sm" onmouseover="this.innerText='Unfollow'"
+          onmouseout="this.innerText='Following'">Following</button>
+      </form>
+    <% } else { %>
+      <form class="ml-2 d-inline" action="/addFollow/<%= profileUsername %>" method="POST">
+        <button class="btn btn-primary btn-sm">Follow <i class="fas fa-user-plus"></i></button>
+      </form>
+    <% }
+  } %>
+</h2>
+
+<div class="profile-nav nav nav-tabs pt-2 mb-4">
+  <a href="/profile/<%= profileUsername %>" class="profile-nav-link nav-item nav-link <%= currentPage == "posts" ? "active" : "" %>">
+    Posts: <%= counts.posts %>
+  </a>
+  <a href="/profile/<%= profileUsername %>/followers" class="profile-nav-link nav-item nav-link <%= currentPage == "followers" ? "active" : "" %>">
+    Followers: <%= counts.followers %>
+  </a>
+  <a href="/profile/<%= profileUsername %>/following" class="profile-nav-link nav-item nav-link <%= currentPage == "following" ? "active" : "" %>">
+    Following: <%= counts.following %>
+  </a>
+</div>

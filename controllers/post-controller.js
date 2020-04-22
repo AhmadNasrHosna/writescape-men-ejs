@@ -53,7 +53,16 @@ exports.edit = function (req, res) {
       // Or if the user did have permission , but there were validation errors
       if (status == "success") {
         // post was updated in the database
-        req.flash("success", "Post successfully updated.");
+        const msg = `
+          <span class="c-notice__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="gridicon gridicons-checkmark notice__icon" height="24" width="24"><g><path d="M9 19.414l-6.707-6.707 1.414-1.414L9 16.586 20.293 5.293l1.414 1.414"></path></g></svg>
+          </span>
+          <span class="c-notice__content">Post updated! <a href='#'>Visit post</a>.</span>
+          <button class="c-notice__dismiss" aria-label="Dismiss">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="gridicon gridicons-cross" height="24" width="24" > <g><path d="M18.36 19.78L12 13.41l-6.36 6.37-1.42-1.42L10.59 12 4.22 5.64l1.42-1.42L12 10.59l6.36-6.36 1.41 1.41L13.41 12l6.36 6.36z"></path></g> </svg>
+          </button>
+        `;
+        req.flash("success", msg);
         req.session.save(() => res.redirect(`/post/${req.params.id}/edit`));
       } else {
         post.errors.forEach((error) => req.flash("errors", error));

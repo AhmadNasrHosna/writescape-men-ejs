@@ -12,7 +12,8 @@
     <% if (post.isVisitorOwner) { %>
     <span class="pt-2" style=" display: flex; ">
       <a href="/post/<%= post._id %>/edit" class="text-primary mr-2" data-toggle="tooltip" data-placement="top"
-        title="Edit" style="text-decoration: none">
+        title="Edit" style="text-decoration: none;display: flex;background: hsla(211, 100%, 95%, 1);width: 35px;height: 35px;align-items:
+        center;justify-content: center;border-radius: 50%;">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
           fill="#ffffff" version="1.1" x="0px" y="0px" viewBox="0 0 1024 1024"
           style="enable-background:new 0 0 1024 1024;fill: currentColor;width: 23px;height: 23px;" xml:space="preserve">
@@ -30,7 +31,7 @@
         </svg>
       </a>
       <form class="delete-post-form d-inline" action="/post/<%= post._id %>/delete" method="POST">
-        <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete">
+        <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete" style=" display: flex !important; background: hsla(0, 100%, 95%, 1); width: 35px; height: 35px; align-items: center; justify-content: center; border-radius: 50%; ">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
             version="1.1" x="0px" y="0px" viewBox="1 -1 100 100"
             style="enable-background:new 1 -1 100 100;fill: red;width: 23px;height: 23px;" xml:space="preserve">

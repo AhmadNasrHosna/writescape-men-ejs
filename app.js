@@ -35,6 +35,7 @@ app.use((req, res, next) => {
   } else {
     req.visitorID = 0;
   }
+
   // Make user session data available from within the view templates
   res.locals.user = req.session.user;
 
@@ -63,3 +64,5 @@ module.exports = app;
 
 // Node / Express: EADDRINUSE, Address already in use - Kill server
 // https://stackoverflow.com/questions/4075287/node-express-eaddrinuse-address-already-in-use-kill-server
+// ENV FILE
+// https://stackoverflow.com/questions/43664565/why-do-people-put-the-env-into-gitignore/43664611
