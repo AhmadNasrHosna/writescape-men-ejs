@@ -14,7 +14,7 @@
       </p>
     </div>
     <div class="col-lg-5 pl-lg-5 pb-3 py-lg-5">
-      <form action="/register" method="POST" id="registration-form">
+      <form action="/register" method="POST" class="js-registrationForm">
         <% regErrors.forEach(function(errMessage) { %>
         <div class="alert alert-danger small">
           <%= errMessage %>
@@ -25,7 +25,7 @@
             <small>Username</small>
           </label>
           <input name="username" id="username-register" class="form-control" type="text" placeholder="Pick a username"
-            autocomplete="off" />
+            autocomplete="off" maxlength="31"/>
         </div>
 
         <div class="form-group">
@@ -41,7 +41,7 @@
           <input name="password" id="password-register" class="form-control" type="password"
             placeholder="Create a password" />
         </div>
-
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button type="submit" class="py-3 mt-4 btn btn-lg btn-success btn-block">
           Sign up for Writescape
         </button>

@@ -190,4 +190,21 @@ User.findByUsername = function (username) {
   });
 };
 
+User.doesEmailExist = function (email) {
+  return new Promise(async (resolve, reject) => {
+    if (typeof email != "string") {
+      resolve(false);
+      return;
+    }
+
+    const user = await usersCollection.findOne({ email: email });
+
+    if (user) {
+      resolve(true);
+    } else {
+      resolve(false);
+    }
+  });
+};
+
 module.exports = User;

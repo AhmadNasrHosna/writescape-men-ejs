@@ -5,6 +5,7 @@ import DOMPurify from "dompurify";
 export default class Search {
   // 1. Select DOM elements, and keep track of any useful data
   constructor() {
+    this._csrf = document.querySelector("[name='_csrf']").value;
     this.injectHTML();
     this.liveSearchOpenTrigger = document.querySelector(".header-search-icon");
     this.liveSearchCloseTrigger = document.querySelector(".close-live-search");
@@ -62,6 +63,7 @@ export default class Search {
   sendRequest() {
     axios
       .post("/search", {
+        _csrf: this._csrf,
         searchTerm: this.liveSearchInputField.value,
       })
       .then((response) => {

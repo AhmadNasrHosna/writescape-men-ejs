@@ -4,26 +4,22 @@
 
     <% if (user) { %>
     <div class="flex-row my-3 my-md-0">
-      <a href="#" style="text-decoration: none" class="text-white mr-2 header-search-icon" title="Search" data-toggle="tooltip"
-        data-placement="bottom">
+      <a href="#" style="text-decoration: none" class="text-white mr-2 header-search-icon" title="Search"
+        data-toggle="tooltip" data-placement="bottom">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
           fill="#ffffff" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100"
-          xml:space="preserve" style="
-          width: 20px;
-          height: 20px;
-      ">
+          xml:space="preserve" style="width: 20px;height: 20px;">
           <g>
             <path
-              d="M41.602,78.206C21.417,78.206,5,61.786,5,41.603C5,21.421,21.417,5,41.602,5   c20.19,0,36.601,16.422,36.601,36.603C78.202,61.786,61.792,78.206,41.602,78.206z M41.602,13.872   c-15.291,0-27.727,12.442-27.727,27.731c0,15.293,12.436,27.735,27.727,27.735s27.726-12.442,27.726-27.735   C69.327,26.314,56.893,13.872,41.602,13.872z"
-              style="
-      "></path>
+              d="M41.602,78.206C21.417,78.206,5,61.786,5,41.603C5,21.421,21.417,5,41.602,5   c20.19,0,36.601,16.422,36.601,36.603C78.202,61.786,61.792,78.206,41.602,78.206z M41.602,13.872   c-15.291,0-27.727,12.442-27.727,27.731c0,15.293,12.436,27.735,27.727,27.735s27.726-12.442,27.726-27.735   C69.327,26.314,56.893,13.872,41.602,13.872z">
+            </path>
             <path
               d="M90.548,94.98c-1.14,0-2.271-0.425-3.139-1.291L61.216,67.482c-1.742-1.729-1.742-4.545,0-6.271   c1.736-1.734,4.54-1.734,6.267,0l26.198,26.199c1.732,1.736,1.732,4.542,0,6.278C92.819,94.556,91.682,94.98,90.548,94.98z">
             </path>
           </g>
         </svg>
       </a>
-      <span class="text-white mr-2 header-chat-icon" title="Chat" data-toggle="tooltip" data-placement="bottom">
+      <span class="text-white mr-2 header-chat-icon js-openChatTrigger" title="Chat" data-toggle="tooltip" data-placement="bottom">
         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="300px" width="300px"
           fill="#ffffff" version="1.1" baseProfile="tiny" x="0px" y="0px" viewBox="0 0 100 100" xml:space="preserve"
           style="
@@ -44,6 +40,7 @@
       </a>
       <a class="btn btn-sm btn-success mr-2" href="/create-post">Create Post</a>
       <form action="/logout" method="POST" class="d-inline">
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <button class="btn btn-sm btn-secondary">Sign Out</button>
       </form>
     </div>
@@ -58,6 +55,7 @@
           <input name="password" class="form-control form-control-sm input-dark" type="password"
             placeholder="Password" />
         </div>
+        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
         <div class="col-md-auto">
           <button class="btn btn-primary btn-sm">Sign In</button>
         </div>

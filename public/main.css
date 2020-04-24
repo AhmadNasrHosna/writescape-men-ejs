@@ -157,7 +157,7 @@ p {
 }
 
 .liveValidateMessage {
-  transition: all 0.5s ease-out;
+  transition: all 0.5s cubic-bezier(0, 0.52, 0, 1);
   top: -6px;
   position: absolute;
   z-index: 1;
@@ -170,6 +170,16 @@ p {
 .liveValidateMessage--visible {
   opacity: 1;
   transform: translateY(0);
+}
+
+.has-error {
+  border-color: hsla(355, 70%, 75%, 1) !important;
+  box-shadow: 0 0 0 0.2rem hsla(355, 70%, 91%, 0.75) !important;
+}
+
+.is-valid {
+  border-color: hsla(134, 50%, 51%, 1) !important;
+  box-shadow: 0 0 0 0.2rem hsla(134, 50%, 55%, 0.315) !important;
 }
 
 .form-group input,
@@ -243,13 +253,13 @@ button[type="submit"] {
   opacity: 0;
   transition: all 0.3s ease-out;
   transform: scale(1.07);
-  visibility: hidden
+  visibility: hidden;
 }
 
 .live-search-results--visible {
   opacity: 1;
   transform: scale(1);
-  visibility: visible
+  visibility: visible;
 }
 
 .search-overlay-top {
@@ -322,7 +332,7 @@ button[type="submit"] {
   border-top-color: #495057;
   will-change: -webkit-transform, transform;
   -webkit-transform: rotate(0deg);
-  transform: rotate(0deg) ;
+  transform: rotate(0deg);
   -webkit-animation: spin 1s infinite linear;
   animation: spin 1s infinite linear;
 }
@@ -335,7 +345,7 @@ button[type="submit"] {
 /* End Search Overlay */
 
 /* Chat */
-.chat-wrapper {
+.c-chat {
   position: fixed;
   z-index: 5;
   bottom: 0;
@@ -343,19 +353,24 @@ button[type="submit"] {
   width: 290px;
   height: 350px;
   background-color: #fff;
-  display: flex;
-  flex-direction: column;
-  transition: all 0.4s ease-in-out;
+  transition: opacity 0.4s ease-in-out,
+    transform 0.3s cubic-bezier(0, 0.52, 0, 1);
   opacity: 0;
   transform: translateY(100%);
 }
 
-.chat--visible {
+.c-chat.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.chat-title-bar {
+.c-chat__wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.c-chat__titlebar {
   background-color: #292929;
   color: #fff;
   padding: 4px 7px;
@@ -363,44 +378,44 @@ button[type="submit"] {
   justify-content: space-between;
 }
 
-.chat-title-bar-close {
+.c-chat__close {
   opacity: 0.7;
   cursor: pointer;
 }
 
-.chat-title-bar-close:hover {
+.c-chat__close:hover {
   opacity: 1;
 }
 
-.chat-log {
+.c-chat__log {
   padding: 8px;
   flex: 1;
   overflow: auto;
 }
 
-.chat-self,
-.chat-other {
+.c-chat__self,
+.c-chat__other {
   font-size: 0.75rem;
   display: flex;
   align-items: center;
   margin-bottom: 7px;
 }
 
-.chat-self {
+.c-chat__self {
   padding-left: 25%;
 }
 
-.chat-self .chat-avatar {
+.c-chat__self .c-chat__avatar {
   margin-left: 6px;
 }
 
-.chat-self .chat-message {
+.c-chat__self .c-chat__message {
   flex: 1;
   display: flex;
   justify-content: flex-end;
 }
 
-.chat-self .chat-message-inner {
+.c-chat__self .c-chat__message-inner {
   text-align: right;
   padding: 4px 7px;
   border-radius: 12px;
@@ -408,31 +423,31 @@ button[type="submit"] {
   color: #fff;
 }
 
-.chat-other {
+.c-chat__other {
   padding-right: 25%;
 }
 
-.chat-other .chat-avatar {
+.c-chat__other .c-chat__avatar {
   margin-right: 6px;
 }
 
-.chat-other .chat-message {
+.c-chat__other .c-chat__message {
   flex: 1;
   display: flex;
   justify-content: flex-start;
 }
 
-.chat-other .chat-message-inner {
+.c-chat__other .c-chat__message-inner {
   padding: 4px 7px;
   border-radius: 12px;
   background-color: #f1f0f0;
 }
 
-.chat-message a {
+.c-chat__message a {
   color: #212529;
 }
 
-.chat-field {
+.c-chat__field {
   width: 100%;
   box-sizing: border-box;
   padding: 10px 7px;

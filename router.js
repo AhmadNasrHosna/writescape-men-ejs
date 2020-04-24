@@ -36,6 +36,9 @@ router.get(
   userController.profileFollowingScreen
 );
 
+router.post("/doesUserNameExist", userController.doesUserNameExist);
+router.post("/doesEmailExist", userController.doesEmailExist);
+
 // Post related routes
 router.get(
   "/create-post",

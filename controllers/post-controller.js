@@ -18,10 +18,25 @@ exports.create = function (req, res) {
     });
 };
 
+exports.apiCreate = function (req, res) {
+  const post = new Post(req.body, req.apiUser._id);
+  post
+    .create()
+    .then((theNewPostID) => {
+      res.json("congrats");
+    })
+    .catch((errors) => {
+      res.json(errors);
+    });
+};
+
 exports.viewSingle = async function (req, res) {
   try {
     let post = await Post.findSingleById(req.params.id, req.visitorID);
-    res.render("post", { post: post });
+    res.render("post", {
+      post: post,
+      title: post.title,
+    });
   } catch {
     res.render("404");
   }
@@ -91,6 +106,16 @@ exports.delete = function (req, res) {
       // Or if the current visitor is not the owner of the requested post
       req.flash("errors", "You do not have permission to perform that action.");
       req.session.save(() => res.redirect("/"));
+    });
+};
+
+exports.apiDelete = function (req, res) {
+  Post.delete(req.params.id, req.apiUser._id)
+    .then(() => {
+      res.json("Success");
+    })
+    .catch(() => {
+      res.json("You do not have permission to perform that action.");
     });
 };
 

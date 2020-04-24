@@ -4,11 +4,15 @@ const MongoStore = require("connect-mongo")(session);
 const flash = require("connect-flash");
 const moment = require("moment");
 const markdown = require("marked");
+const sanitizeHTML = require("sanitize-html");
+const csrf = require("csurf");
 
 const app = express();
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
+
+app.use("/api", require("./router-api"));
 
 app.use(express.static("public"));
 app.set("views", "views");
@@ -51,16 +55,65 @@ app.use((req, res, next) => {
   // Make moment library available from within the view templates
   res.locals.moment = moment;
 
-  // Make moment library available from within the view templates
+  // Make the URL of the current page available from within the view templates
   res.locals.pageURL = req.protocol + "://" + req.get("host") + req.originalUrl;
 
   next();
 });
 
 const router = require("./router");
+
+app.use(csrf());
+
+app.use((req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
+});
+
 app.use("/", router);
 
-module.exports = app;
+app.use((err, req, res, next) => {
+  if (err) {
+    if (err.code == "EBADCSRFTOKEN") {
+      req.flash("errors", "Cross-site request forgery detected.");
+      req.session.save(() => res.redirect("/"));
+    } else {
+      res.render("404");
+    }
+  }
+});
+
+const server = require("http").createServer(app);
+
+const io = require("socket.io")(server);
+
+io.use((socket, next) => {
+  sessionOptions(socket.request, socket.request.res, next);
+});
+
+io.on("connection", (socket) => {
+  if (socket.request.session.user) {
+    const user = socket.request.session.user;
+
+    socket.emit("welcome", {
+      username: user.username,
+      avatar: user.avatar,
+    });
+
+    socket.on("chatMessageFromBrowser", (data) => {
+      socket.broadcast.emit("chatMessageFromServer", {
+        message: sanitizeHTML(data.message, {
+          allowedAttributes: {},
+          allowedTags: [],
+        }),
+        username: user.username,
+        avatar: user.avatar,
+      });
+    });
+  }
+});
+
+module.exports = server;
 
 // Node / Express: EADDRINUSE, Address already in use - Kill server
 // https://stackoverflow.com/questions/4075287/node-express-eaddrinuse-address-already-in-use-kill-server

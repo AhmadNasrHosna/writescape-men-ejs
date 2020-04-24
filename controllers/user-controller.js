@@ -1,3 +1,4 @@
+const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 const Post = require("../models/post");
 const Follow = require("../models/follow");
@@ -47,6 +48,15 @@ exports.mustBeLoggedIn = function (req, res, next) {
   }
 };
 
+exports.apiMustBeLoggedIn = function (req, res, next) {
+  try {
+    req.apiUser = jwt.verify(req.body.token, process.env.JWTSECRET);
+    next();
+  } catch {
+    res.json("Sorry, you must provide a valid token.");
+  }
+};
+
 exports.login = function (req, res) {
   let user = new User(req.body);
   user
@@ -66,6 +76,22 @@ exports.login = function (req, res) {
       req.session.save(() => {
         res.redirect("/");
       });
+    });
+};
+
+exports.apiLogin = function (req, res) {
+  let user = new User(req.body);
+  user
+    .login()
+    .then(() => {
+      res.json(
+        jwt.sign({ _id: user.data._id }, process.env.JWTSECRET, {
+          expiresIn: "30d",
+        })
+      );
+    })
+    .catch(() => {
+      res.json("Not correct");
     });
 };
 
@@ -139,6 +165,7 @@ exports.profilePostsScreen = function (req, res) {
         profileAvatar: req.profileUser.avatar,
         isFollowing: req.isFollowing,
         isVisitorProfile: req.isVisitorProfile,
+        title: `${req.profileUser.username} on Writescape`,
       });
     })
     .catch(() => {
@@ -161,6 +188,7 @@ exports.profileFollowersScreen = async function (req, res) {
       profileAvatar: req.profileUser.avatar,
       isFollowing: req.isFollowing,
       isVisitorProfile: req.isVisitorProfile,
+      title: `People following ${req.profileUser.username}`,
     });
   } catch {
     res.render("404");
@@ -182,8 +210,34 @@ exports.profileFollowingScreen = async function (req, res) {
       profileAvatar: req.profileUser.avatar,
       isFollowing: req.isFollowing,
       isVisitorProfile: req.isVisitorProfile,
+      title: `People followed by ${req.profileUser.username}`,
     });
   } catch {
     res.render("404");
+  }
+};
+
+exports.doesUserNameExist = function (req, res) {
+  User.findByUsername(req.body.username)
+    .then(() => {
+      res.json(true);
+    })
+    .catch(() => {
+      res.json(false);
+    });
+};
+
+exports.doesEmailExist = async function (req, res) {
+  let isBeingUsed = await User.doesEmailExist(req.body.email);
+  res.json(isBeingUsed);
+};
+
+exports.apiGetPostsByUsername = async function (req, res) {
+  try {
+    const authorDoc = await User.findByUsername(req.params.username);
+    let posts = await Post.findByAuthorID(authorDoc._id);
+    res.json(posts);
+  } catch {
+    res.json("Invalid user requested.");
   }
 };
