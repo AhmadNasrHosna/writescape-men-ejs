@@ -16,7 +16,10 @@ export default class Chat {
 
   // Events
   events() {
-    this.openChatTrigger.addEventListener("click", () => this.showChat());
+    this.openChatTrigger.addEventListener("click", () => {
+      this.hideNotification();
+      this.showChat();
+    });
     this.closeChatTrigger.addEventListener("click", () => this.hideChat());
     this.chatForm.addEventListener("submit", (e) => {
       e.preventDefault();
@@ -79,6 +82,18 @@ export default class Chat {
     this.chat.classList.remove("is-visible");
   }
 
+  showNotification() {
+    if (!this.chat.classList.contains("is-visible")) {
+      this.openChatTrigger.classList.add("show-notification");
+    }
+  }
+
+  hideNotification() {
+    if (this.openChatTrigger.classList.contains("show-notification")) {
+      this.openChatTrigger.classList.remove("show-notification");
+    }
+  }
+
   renderMessageFromServer(data) {
     this.chatLog.insertAdjacentHTML(
       "beforeend",
@@ -95,6 +110,7 @@ export default class Chat {
       `)
     );
 
+    this.showNotification();
     this.scrollToTheNewMessage();
   }
 
